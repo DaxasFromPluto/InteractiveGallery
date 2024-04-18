@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<style>
+.galerie {
+    display: grid;
+    grid-template-columns: repeat(5, 1);
+    grid-template-rows: repeat(5, 5);
+    grid-gap: 15px;
+}
+</style>
+
+<body>
+  <div id="galerie" class="galerie">
+
+  </div>
+
+  <script>
+
+    async function fetchData() {
+      const apikey = "live_hxptZtnHdurXtDse3itufh7psjabNkf6uuFpkSAMzMtnDjVsDwW6mMBsR6N42ruv";
+      const url = `https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=beng&api_key=${apikey}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data
+
+
+      }
+      catch (error) {
+
+      }
+
+    }
+    let galerie = document.getElementById("galerie")
+
+    async function loadImgs() {
+
+      try {
+        let data = await fetchData()
+
+        for(i=0;i<2; i++){
+          let img = document.createElement('div')
+          galerie.appendChild(img)
+        for (const element of data) {
+          img.innerHTML += `<img src = "${element.url}" width = "50%" heigh = "50%" object-fit: cover;>`
+        }
+        }
+      
+      }
+      finally {
+
+      }
+
+
+    }
+
+    loadImgs()
+    window.addEventListener("scroll", () => {
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100) {
+      loadImgs();
+    }
+})
+
+  </script>
+</body>
+
+</html>
